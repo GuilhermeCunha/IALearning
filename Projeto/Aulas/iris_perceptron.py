@@ -10,73 +10,88 @@ Original file is located at
 import matplotlib.pyplot as plt
 import numpy as np
 import random
-import pandas as pd
+import pandas as pd 
 import matplotlib.pyplot as plt
 
 import csv
 
+from google.colab import files
+uploaded = files.upload()
+
+name = "entrada.csv"
+#for fn in uploaded.keys():
+#       print('User uploaded file "{name}" with length {length} bytes'.format(name=fn, length=len(uploaded[fn])))
+#       name = fn
+      
 max_int = 40
 
+print("Name File:" + name)
 
-data = pd.read_csv('entrada.txt', sep=" ", header=None)
-# print(data[0])
-# plt.scatter(data[1],data[0])
-# plt.title("Setosa x versicolor" )
-# plt.xlabel('Sepal.Width')
-# plt.ylabel('Sepal.Length')
+data = pd.read_csv(name, header=None, usecols=[0,1],sep=' ' ) 
+
+#print(data[0])
+#plt.scatter(data[1],data[0])
+#plt.title("Setosa x versicolor" )
+#plt.xlabel('Sepal.Width')
+#plt.ylabel('Sepal.Length')
 
 # quantos itens tem o vetor x
 tamanho_x = data.shape[0]
-print("Tamanho x:", tamanho_x)
+print("Tamanho x:" , tamanho_x)
 
-# add coluna limiar (bias)
+#add coluna limiar (bias)
 data[2] = 1
 
 # quantos itens estão em cada posicao do vetor x
 qtde_itens_x = data.shape[1]
-print("Qtd itens:", qtde_itens_x)
+print("Qtd itens:" , qtde_itens_x)
+
 
 # pesos (sinapses)
-w = [1, -1, 0.5]
+w = [1,-1,0.5]
+
 
 # quantos itens tem o vetor w (3)
 tamanho_w = len(w)
 
 # respostas desejadas
-# dataset de resposta esperada
-data_resp = pd.read_csv('entrada.txt', header=None, usecols=[2], sep=' ')
+#dataset de resposta esperada
+data_resp = pd.read_csv(name, header=None, usecols=[2],sep=' ' ) 
 print("Resp: ", data_resp.shape[0])
+
 
 # taxa de aprendizado (n)
 taxa_aprendizado = 0.05
 
-# saida
+#saida
 y = 0
 
 # resposta = acerto ou falha
 resposta = ""
 
+  
 # soma
 u = 0
 print("Treinando")
 
 # inicio do algoritmo
-for k in range(0, max_int):
-
-    acertos = 0
-
+for k in range(0,max_int):
+    
+    acertos = 0    
+    
     print("pesos:")
-    for j in range(0, tamanho_w):
-        print(str(w[j]) + " - ", end="")
-
-    print("\nÉpoca " + str(k) + "-------------------------")
-
-    for t in range(25, tamanho_x - 25):
+    for j in range (0,tamanho_w):
+        print(str(w[j]) + " - " , end="")
+    
+    print("\nÉpoca "+str(k)+"-------------------------")
+    
+    for t in range(25,tamanho_x - 25):        
         u = 0
 
-        # print("Resp: ", data_resp[2][t])
-
-        for j in range(0, qtde_itens_x):
+        #print("Resp: ", data_resp[2][t])
+        
+        
+        for j in range(0,qtde_itens_x):
             u += data.iloc[t][j] * w[j]
 
         if u >= 0:
@@ -86,56 +101,60 @@ for k in range(0, max_int):
 
         if (y == data_resp[2][t]):
             resposta = "acerto"
-            acertos += 1
-            # print(resposta + " >>> u = "+str(u)+ ", y = "+ str(y))
+            acertos += 1        
+            #print(resposta + " >>> u = "+str(u)+ ", y = "+ str(y))   
         else:
             erro = data_resp[2][t] - u
-            resposta = "erro"
-            # print(resposta + " >>> u = "+str(u)+ ", y = "+ str(y))
-
-            for j in range(0, tamanho_w):
+            resposta = "erro"        
+            #print(resposta + " >>> u = "+str(u)+ ", y = "+ str(y))
+            
+            for j in range (0,tamanho_w):              
                 w[j] = w[j] + taxa_aprendizado * erro * data.iloc[t][j]
-
-    print("Acertos: ", acertos, " de ", (tamanho_x - 50))
-    print("u = " + str(u) + ", y = " + str(y))
-
+                    
+    print("Acertos: ", acertos , " de ", (tamanho_x - 50))       
+    print("u = "+str(u)+ ", y = "+ str(y))
+    
     if (acertos == tamanho_x - 50):
-        print("\nFuncionalidade aprendida com " + str(k) + " épocas")
+        print("\nFuncionalidade aprendida com "+str(k)+" épocas")
         print("\nPesos encontrados =============== ")
-        for j in range(0, tamanho_w):
+        for j in range (0,tamanho_w):
             print(w[j])
         break;
+    
 
+    
     print("Testando")
-
-for t in range(0, 25):
-    u = 0
-
-    for j in range(0, qtde_itens_x):
-        u += data.iloc[t][j] * w[j]
-
-    if u >= 0:
-        y = 1
-    else:
-        y = 2
-
-    if (y == data_resp[2][t]):
-        resposta = "acerto"
-        acertos += 1
-        print(resposta + " >>> u = " + str(u) + ", y = " + str(y))
-
-for t in range(tamanho_x - 25, tamanho_x):
-    u = 0
-
-    for j in range(0, qtde_itens_x):
-        u += data.iloc[t][j] * w[j]
-
-    if u >= 0:
-        y = 1
-    else:
-        y = 2
-
-    if (y == data_resp[2][t]):
-        resposta = "acerto"
-        acertos += 1
-        print(resposta + " >>> u = " + str(u) + ", y = " + str(y))
+    
+    
+for t in range(0,25):        
+  u = 0           
+  
+  for j in range(0,qtde_itens_x):
+    u += data.iloc[t][j] * w[j]
+    
+  if u >= 0:
+    y = 1
+  else:
+    y = 2  
+  
+  if (y == data_resp[2][t]):
+    resposta = "acerto"
+    acertos += 1
+    print(resposta + " >>> u = "+str(u)+ ", y = "+ str(y)) 
+    
+    
+for t in range(tamanho_x - 25,tamanho_x):        
+  u = 0           
+  
+  for j in range(0,qtde_itens_x):
+    u += data.iloc[t][j] * w[j]
+    
+  if u >= 0:
+    y = 1
+  else:
+    y = 2  
+  
+  if (y == data_resp[2][t]):
+    resposta = "acerto"
+    acertos += 1
+    print(resposta + " >>> u = "+str(u)+ ", y = "+ str(y))

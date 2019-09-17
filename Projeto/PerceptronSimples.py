@@ -5,6 +5,8 @@ Created on Wed Jan 31 18:24:00 2018
 @author: jmarcos
 """
 import numpy as np 
+import pandas as pd
+import matplotlib.pyplot as plt
 
 # Define o número de épocas da simulação e o número de atributos
 numEpocas = 10000 #70000
@@ -24,9 +26,19 @@ if normaliza:
 # bias
 bias = 1
 
+data = pd.read_csv('F:\\Repositorios\\IALearning\\Projeto\\Aulas\\entrada.txt', sep=" ", header=None)
+data.columns = ["comp", "larg", "flor"]
+data = data[["comp", "larg", "flor"]]
+predict = "flor"
+
+X = np.array(data.drop([predict], 1))
+
+Y = np.array(data[predict])
+
 # Entrada do Perceptron.
-X = np.vstack((peso, pH))   # Ou X = np.asarray([peso, pH])
-Y = np.array([-1, 1, -1, -1, 1, 1])
+#X = np.vstack((peso, pH))   # Ou X = np.asarray([peso, pH])
+print(X)
+#Y = np.array([-1, 1, -1, -1, 1, 1])
 
 
 # Taxa de aprendizado.

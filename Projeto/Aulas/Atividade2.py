@@ -1,10 +1,19 @@
+# Imports 
+'''
+Pips
+
+pip install matplotlib; pip install pandas;pip install numpy
+'''
+
 import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
 import random
+from sklearn import svm
+
 
 # Tratamento das entradas
-data = pd.read_csv('entrada.txt', sep=" ", header=None)
+data = pd.read_csv('F:\\Repositorios\\IALearning\\Projeto\\Aulas\\entrada.txt', sep=" ", header=None)
 data.columns = ["comp", "larg", "flor"]
 data = data[["comp", "larg", "flor"]]
 predict = "flor"
@@ -14,6 +23,8 @@ predict = "flor"
 
 # Lista de entradas [Comprimento, Largura]
 x = np.array(data.drop([predict], 1))
+
+X = x
 
 
 
@@ -69,6 +80,10 @@ soma = 0
 # Numero de Epocas
 nEpocas = 1000
 
+
+
+#Funcoes 
+
 print("Inicando Treinamento...")
 nAcertos = 0
 for epoca in range(0, nEpocas):
@@ -114,6 +129,7 @@ for epoca in range(0, nEpocas):
                     '''
                     #w[alt] = w[alt] + txAprendizado
                     w[alt] = w[alt] + txAprendizado * erro * x[entrada][alt]
+
             if alteracaoDePeso == 0:
                 alteracaoDePeso = 1
             else:
@@ -136,4 +152,3 @@ print("\n\n")
 print(nAcertos, " de 100 certos")
 
 print("Finalizado")
-
