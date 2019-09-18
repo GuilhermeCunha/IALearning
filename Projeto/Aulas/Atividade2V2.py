@@ -117,39 +117,43 @@ def iniciarPerceptron(X, D, epochs):
             print("Not learned yet")
 
 
-def testarPerceptron(X, D, W):
+def testarPerceptron(tX, tD, tW, startAt):
     print("Starting the tests!")
     # Numero de saidas certas
-    hits = 0
+    thits = 0
     # Numero de saidas erradas
-    errors = 0
-    for data in range(0, len(X)):
+    terrors = 0
+    for data in range(startAt, len(tX)):
         
         # Guarda o valor do somatorio
-        E = 0
+        tE = 0
         
         # Calcula o somatorio de todas as entradas multiplacas pelo seu peso
-        for column in range(0, len(X[0])):
-            E += X[data][column] * W[column]
+        for column in range(0, len(tX[0])):
+            tE += tX[data][column] * tW[column]
 
         # Funcao de saida
 
-        if(E >= 0):
-            Y = 1
+        if(tE >= 0):
+            tY = 1
         else:
-            Y = 2
+            tY = 2
             
-        if(Y == D[data]):
-            hits += 1
+        if(tY == tD[data]):
+            thits += 1
         else:
-            errors += 1
-        print("Number of Hits: ", hits, "/", len(X))
-        print("Number of Errors: ", errors, "/", len(X))
-    if(errors == 0):
+            terrors += 1
+        print("tNumber of Hits: ", thits, "/", startAt)
+        print("tNumber of Errors: ", terrors, "/", startAt)
+    if(terrors == 0):
         print("The perceptron was perfectly trained")
     else:
         print("The perceptron was'nt perfectly trained")
-        print("Acurracy: ", (hits/errors))
+        print("Acurracy: ", (thits/terrors))
 
-iniciarPerceptron(x[0:20], d[0:20], 5)
-testarPerceptron(x[21:100], d[21:100], w)
+endTraining = 40
+startTesting = endTraining + 1
+iniciarPerceptron(x[0:endTraining], d[0:endTraining],100)
+testarPerceptron(x[startTesting:100], d[startTesting:100], w, startAt=startTesting)
+
+print(len(x))
