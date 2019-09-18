@@ -15,7 +15,7 @@ import matplotlib.pyplot as plt
 
 # Tratamento das entradas
 data = pd.read_csv(
-    'C:\\Users\\aluno\\Downloads\\IALearning-Prod\\Projeto\\Aulas\\entrada.txt', sep=" ", header=None)
+    "C:\\Users\\aluno\\Downloads\\IALearning-Prod\\Projeto\\Aulas\\entrada.txt", sep=" ", header=None)
 data.columns = ["comp", "larg", "flor"]
 data = data[["comp", "larg", "flor"]]
 predict = "flor"
@@ -24,7 +24,7 @@ x = np.array(data.drop([predict], 1))
 
 d = np.array(data[predict])
 
-learningRate = 0.05
+learningRaE = 0.05
 
 
 y = 0
@@ -52,16 +52,16 @@ def iniciarPesos():
         print("   -", w[weight])
 
 
-def recalcularPesos(dataIndex, expectedAnswer, sumObtained):
+def recalcularPesos(dataIndex, expecEdAnswer, sumObtained):
     print("Changing the weights")
     # Realiza o calculo estocastico
-    difference = expectedAnswer - sumObtained
+    difference = expecEdAnswer - sumObtained
     for weight in range(0, len(w)):
-        w[weight] = w[weight] + learningRate * \
+        w[weight] = w[weight] + learningRaE * \
             difference * x[dataIndex][weight]
 
 
-def iniciarPerceptron(X, D, epochs):
+def iniciarPerceptron(X, D, epochs, endTraining):
     iniciarPesos()
     # Saida obtida
     Y = 0
@@ -76,7 +76,7 @@ def iniciarPerceptron(X, D, epochs):
         hits = 0
         # Numero de saidas erradas
         errors = 0
-        for data in range(0, len(X)):
+        for data in range(0, endTraining):
             E = 0
 
             # Calcula o somatorio de todas as entradas multiplacas pelo seu peso
@@ -98,16 +98,16 @@ def iniciarPerceptron(X, D, epochs):
                 print("This is a error")
                 errors += 1
                 recalcularPesos(
-                    dataIndex=data, expectedAnswer=D[data], sumObtained=E)
+                    dataIndex=data, expecEdAnswer=D[data], sumObtained=E)
 
                 # Recalcula os pesos utilizando o
-            print("Number of Hits: ", hits, "/", len(x))
-            print("Number of Errors: ", errors, "/", len(x))
+            print("Number of Hits: ", hits, "/", endTraining)
+            print("Number of Errors: ", errors, "/", endTraining)
 
             print("Sum(E): ", E)
             print("Exit(Y): ", Y)
 
-        if(hits == len(X)):
+        if(hits == endTraining):
             print("All the answers are Hits!")
             print("Weights founds in the epoch ", epoch)
             for weight in range(0, len(w)):
@@ -117,43 +117,43 @@ def iniciarPerceptron(X, D, epochs):
             print("Not learned yet")
 
 
-def testarPerceptron(tX, tD, tW, startAt):
-    print("Starting the tests!")
+def testarPerceptron(X, D, W, startAt):
+    print("Starting the Tests!")
     # Numero de saidas certas
-    thits = 0
+    hits = 0
     # Numero de saidas erradas
-    terrors = 0
-    for data in range(startAt, len(tX)):
+    errors = 0
+    for data in range(startAt, len(X)):
         
         # Guarda o valor do somatorio
-        tE = 0
+        E = 0
         
         # Calcula o somatorio de todas as entradas multiplacas pelo seu peso
-        for column in range(0, len(tX[0])):
-            tE += tX[data][column] * tW[column]
+        for column in range(0, len(X[0])):
+            E += X[data][column] * W[column]
 
         # Funcao de saida
 
-        if(tE >= 0):
-            tY = 1
+        if(E >= 0):
+            Y = 1
         else:
-            tY = 2
+            Y = 2
             
-        if(tY == tD[data]):
-            thits += 1
+        if(Y == D[data]):
+            hits += 1
         else:
-            terrors += 1
-        print("tNumber of Hits: ", thits, "/", startAt)
-        print("tNumber of Errors: ", terrors, "/", startAt)
-    if(terrors == 0):
+            errors += 1
+        print("Number of Hits: ", hits, "/", (len(X) - startAt))
+        print("Number of Errors: ", errors, "/", (len(X) - startAt))
+    if(errors == 0):
         print("The perceptron was perfectly trained")
     else:
         print("The perceptron was'nt perfectly trained")
-        print("Acurracy: ", (thits/terrors))
+        print("Acurracy: %.2f%%" % ((hits/startAt)* 100))
 
-endTraining = 40
-startTesting = endTraining + 1
-iniciarPerceptron(x[0:endTraining], d[0:endTraining],100)
-testarPerceptron(x[startTesting:100], d[startTesting:100], w, startAt=startTesting)
+endTraining = 70
+startEsting = endTraining + 1
+iniciarPerceptron(x, d, 100, endTraining= endTraining)
+testarPerceptron(x, d, w, startAt=endTraining)
 
 print(len(x))
