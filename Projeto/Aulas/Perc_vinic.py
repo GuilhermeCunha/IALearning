@@ -7,14 +7,11 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
-data = pd.read_csv("C:\\Users\\aluno\\Documents\\VDP\\Projeto\\Aulas\\entrada.txt", sep=" ", header=None)
-data.columns = ["comp", "larg", "flor"]
-data = data[["comp", "larg", "flor"]]
-predict = "flor"
+data = pd.read_csv("/home/viniciusdantz/Documentos/Repositório Github/Python/IALearning/Projeto/Aulas/entrada.txt", sep=" ", names=["comp", "larg", "flor"])
 
-x = np.array(data.drop([predict], 1))
+x = np.array(data.drop(["flor"], 1))
 
-d = np.array(data[predict])
+d = np.array(data["flor"])
 
 bias = 1
 
@@ -28,7 +25,7 @@ taxaApr = 0.05
 
 saida = 0
 
-epochs = 100000
+epochs = 1000
 
 erro = False
 
@@ -59,8 +56,29 @@ for epoch in range(0, epochs):
         print("Finalizou - epocas: {0}".format(epoch))
         break
 
-fig, ax = plt.subplots()
-for t in range(0,len(x)):
-    plt.scatter(x[t][0], x[t][1])
 
+#PLOTAR GRAFICO
+
+for t in range(len(x)):
+    if d[t] == 1:
+        plt.scatter(x[t][0], x[t][1], color='red')
+    else:
+        plt.scatter(x[t][0], x[t][1], color='blue')
+
+
+xp1 = ((-1) * w[2]) / w[0]
+xp2 = ((-1) * w[2]) / w[1]
+print(str(xp1) + "," + str(xp2))
+
+pontos = [[0, xp1], [xp2, 0]]
+
+z = np.polyfit(pontos[0], pontos[1], 1)
+p = np.poly1d(z)
+print("equação: ", p)
+aux= np.arange(10)
+yaux = p(aux)
+print('Pesos: w1: '+ str(w[0]) + 'w2: '+ str(w[1]) + 'w3: '+ str(w[2]))
+
+# Generates plot
+plt.plot(aux, yaux, '-', color='black')
 plt.show()
