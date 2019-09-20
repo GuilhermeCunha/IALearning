@@ -15,7 +15,7 @@ import matplotlib.pyplot as plt
 
 # Tratamento das entradas
 data = pd.read_csv(
-    "C:\\Users\\aluno\\Downloads\\IALearning-Prod\\Projeto\\Aulas\\entrada.txt", sep=" ", header=None)
+    "F:\\Repositorios\\IALearning\\Projeto\\Aulas\\entrada.txt", sep=" ", header=None)
 data.columns = ["comp", "larg", "flor"]
 data = data[["comp", "larg", "flor"]]
 predict = "flor"
@@ -45,7 +45,7 @@ w = np.zeros(len(x[0]))
 def iniciarPesos():
 
     for weight in range(0, len(w)):
-        w[weight] = randint(-1, 1)
+        w[weight] = randint(0, 1)
 
     print("Initial Weights:")
     for weight in range(0, len(w)):
@@ -157,3 +157,46 @@ iniciarPerceptron(x, d, 100, endTraining= endTraining)
 testarPerceptron(x, d, w, startAt=endTraining)
 
 print(len(x))
+
+#PLOTAR GRAFICO
+# Plotting the points
+for t in range(endTraining):
+    if d[t] == 1:
+        plt.scatter(x[t][0], x[t][1], color='red')
+    else:
+        plt.scatter(x[t][0], x[t][1], color='blue')
+
+
+xp1 = ((-1) * w[2]) / w[0]
+xp2 = ((-1) * w[2]) / w[1]
+print(str(xp1) + "," + str(xp2))
+
+# Define the start and the end point
+pontos = [[0, xp1], [xp2, 0]]
+
+# Create a numpy polyfit with the points
+z = np.polyfit(pontos[0], pontos[1], 1)
+
+# Construct the polynomial for the first dimension
+p = np.poly1d(z)
+
+print("equação: ", p)
+
+# Make a list 0-9
+aux= np.arange(10)
+
+print("AUXILIAR: ", aux)
+
+# Define the polynomial with X = aux (aux = [0 1 2 3 4 5 6 7 8 9])
+yaux = p(aux)
+
+print("YAUX: ", yaux)
+
+print('Pesos: w1: '+ str(w[0]) + ' w2: '+ str(w[1]) + ' w3: '+ str(w[2]))
+
+# Generates plot using coordinates: X = aux and Y = yaux with the color black
+plt.plot(aux, yaux, '-', color='black')
+
+# Show the graph
+plt.show()
+print("Finalizado")
