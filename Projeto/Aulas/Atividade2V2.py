@@ -15,7 +15,7 @@ import matplotlib.pyplot as plt
 
 # Tratamento das entradas
 data = pd.read_csv(
-    "F:\\Repositorios\\IALearning\\Projeto\\Aulas\\entrada.txt", sep=" ", header=None)
+    "C:\\Users\\LENOVO\\Desktop\\IALearning-Prod\\Projeto\\Aulas\\entrada.txt", sep=" ", header=None)
 data.columns = ["comp", "larg", "flor"]
 data = data[["comp", "larg", "flor"]]
 predict = "flor"
@@ -24,7 +24,7 @@ x = np.array(data.drop([predict], 1))
 
 d = np.array(data[predict])
 
-learningRaE = 0.05
+learningRate = 0.05
 
 
 y = 0
@@ -57,8 +57,8 @@ def recalcularPesos(dataIndex, expecEdAnswer, sumObtained):
     # Realiza o calculo estocastico
     difference = expecEdAnswer - sumObtained
     for weight in range(0, len(w)):
-        w[weight] = w[weight] + learningRaE * \
-            difference * x[dataIndex][weight]
+        w[weight] = w[weight] + (learningRate * \
+            (difference * x[dataIndex][weight]))
 
 
 def iniciarPerceptron(X, D, epochs, endTraining):
@@ -153,7 +153,7 @@ def testarPerceptron(X, D, W, startAt):
 
 endTraining = 70
 startEsting = endTraining + 1
-iniciarPerceptron(x, d, 100, endTraining= endTraining)
+iniciarPerceptron(x, d, 200, endTraining= endTraining)
 testarPerceptron(x, d, w, startAt=endTraining)
 
 print(len(x))
