@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import random
 
 data = [
@@ -7,7 +8,14 @@ data = [
     [1,1,1]
 ]
 x = []
-y = []
+'''
+    [x1, x2, b]
+x = [[0, 0, 1], 
+    [0, 1, 1], 
+    [1, 0, 1], 
+    [1, 1, 1]]
+'''
+y = [] # y = [0, 0, 0, 1]
 bias = 1
 for i in data:
     d = i[:2] 
@@ -16,11 +24,10 @@ for i in data:
     y.append(i[2])
 
 # print(x)
-print(y[3])
 
-epochs = 5
+epochs = 50
 
-w = [random.uniform(0, 1), random.uniform(0, 1), random.uniform(0, 1)]
+w = [random.uniform(0, 1), random.uniform(0, 1), random.uniform(0, 1)] # len(w) == 3 
 #w = [0.5,0.6,-0.3]
 tx_apr = 0.05
 for epoch in range(epochs):
@@ -42,16 +49,20 @@ for epoch in range(epochs):
             acertos += 1
         else:
             erros += 1
+            print("\n")
             print("ERROU")
-            print("ESPERADO: ",y[linha])
+            print("SAÍDA ESPERADA: ", y[linha])
             print("SOMA = ", sum)
             for coluna in range(0, len(w)):
-                erro = y[coluna] - sum
+                erro = y[linha] - saida
                 print("{0} = {0} + ({1} * ({2} * {3}))".format(w[coluna], tx_apr, erro, x[linha][coluna]))
                 w[coluna] = w[coluna] + (tx_apr * (erro * x[linha][coluna]))
+            print("\n")
     print("Epoca: ", epoch)
     if(acertos == len(x)):
         print("Terminado - Acertou todas")
         break
     else:
-        print("Não perfeita: " , acertos)
+        print("RN não perfeita\nAcertos: " , acertos)
+        
+print("w[0] = {0}\nw[1] = {1}\nw[2] = {2}".format(w[0], w[1], w[2]))
