@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 import random
+import matplotlib.pyplot as plt
+import numpy as np
 
 data = [
     [0,0,0],
@@ -66,3 +68,28 @@ for epoch in range(epochs):
         print("RN não perfeita\nAcertos: " , acertos)
         
 print("w[0] = {0}\nw[1] = {1}\nw[2] = {2}".format(w[0], w[1], w[2]))
+
+#PLOTAR GRAFICO
+
+for t in range(len(x)):
+    if y[t] == 1:
+        plt.scatter(x[t][0], x[t][1], color='red')
+    else:
+        plt.scatter(x[t][0], x[t][1], color='blue')
+
+
+xp1 = ((-1) * w[2]) / w[0]
+xp2 = ((-1) * w[2]) / w[1]
+# print(str(xp1) + "," + str(xp2))
+
+pontos = [[0, xp1], [xp2, 0]]
+
+z = np.polyfit(pontos[0], pontos[1], 1)
+p = np.poly1d(z)
+# print("equação: ", p)
+aux= np.arange(3)
+yaux = p(aux)
+
+# Generates plot
+plt.plot(aux, yaux, '-', color='black')
+plt.show()
