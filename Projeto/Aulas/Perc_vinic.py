@@ -77,7 +77,7 @@ pontos = [[0, xp1], [xp2, 0]]
 z = np.polyfit(pontos[0], pontos[1], 1)
 p = np.poly1d(z)
 # print("equação: ", p)
-aux= np.arange(8)
+aux = np.arange(8)
 yaux = p(aux)
 print("--- Pesos ---\n--- w1 = {:.2f} ---".format(w[0]) + "\n--- w2 = {:.2f} ---".format(w[1]) + "\n--- w3 = {:.2f} ---".format(w[2]))
 
@@ -105,12 +105,14 @@ Max = 4.4
 Min = 2.0
 '''
 
-predict = [random.uniform(0, 10), random.uniform(0, 10)]
+predict = [random.uniform(3, 8), random.uniform(1, 5.5), None]
 # print(predict)
 
-k = 3 #vizinhos
-
+k = 5 # vizinhos
 minors = []
+
+for item in range(k):
+    minors.append([0, 0, 0, 100])
 
 for i in range(len(data)):
     if(data[i][0] > predict[0]):
@@ -125,6 +127,32 @@ for i in range(len(data)):
     
     dist = math.sqrt((deltax**2) + (deltay**2))
     data[i][3] = dist
-    for j in range(k): # parei aqui - parte de colorar os vizinhos mais próximos em um array
-        if(i == 0) minors = [data]
-        if(minors[j] < data):
+    for j in range(k):
+        if(minors[j][3] > data[i][3]):
+            minors[j] = data[i]
+            break
+                    
+acurracyOne = 0
+acurracyTwo = 0
+for j in range(k):
+    if(minors[j][2] == 1):
+        acurracyOne += (1/k)
+    
+acurracyTwo = 1 - acurracyOne
+print(acurracyOne, acurracyTwo)
+print(predict)
+for item in minors:
+    print(item)
+
+if(acurracyOne > 0.51):
+    predict[2] = 1
+    print("Acurracy de {0:.2f}% para flor do tipo {1}".format((acurracyOne*100), predict[2]))
+else:
+    predict[2] = 2
+    print("Acurracy de {0:.2f}% para flor do tipo {1}".format((acurracyTwo*100), predict[2]))
+
+
+plt.scatter(predict[0], predict[1], color='green')
+for item in minors:
+    plt.scatter(item[0], item[1], color='purple')
+plt.show()
