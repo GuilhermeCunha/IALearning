@@ -127,11 +127,16 @@ for i in range(len(data)):
     
     dist = math.sqrt((deltax**2) + (deltay**2))
     data[i][3] = dist
-    for j in range(k):
+    """ for j in range(k):
         if(minors[j][3] > data[i][3]):
+            while((j + 1) < k):
+                minors[j+1] = minors[j]
             minors[j] = data[i]
-            break
-                    
+            break """
+
+minors = data[data[:, 3].argsort()]
+minors = minors[:k]
+
 acurracyOne = 0
 acurracyTwo = 0
 for j in range(k):
