@@ -52,7 +52,7 @@ for epoch in range(0, epochs):
             erros += 1
         if erro:
             for coluna in range(0, len(x[0])):
-                w[coluna] = x[linha][coluna]*(d[linha] - sum)*taxaApr + w[coluna]
+                w[coluna] = w[coluna] + taxaApr * x[linha][coluna] * (d[linha] - sum)
     print("--- Epoca ({0}): {1} {2} ---".format(epoch, acertos, erros))
     if(acertos == len(x)):
         print("--- Finalizou --- \n--- Epocas: {0} ---".format(epoch))
