@@ -12,9 +12,9 @@ data = pd.read_csv("/home/viniciusdantz/Documentos/Repositório Github/Python/IA
 
 x = np.array(data.drop(["flor", "dist"], 1))
 
-d = np.array(data["flor"])
+    d = np.array(data["flor"])
 
-data = np.array(data)
+    data = np.array(data)
 
 bias = 1
 
