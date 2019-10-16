@@ -10,7 +10,6 @@ import random as rd
 from PIL import Image
 from PIL import ImageFilter as filter
 
-
 img = Image.open('IALearning/Projeto/Aulas/imagem.jpeg')
 width, height = img.size
 
