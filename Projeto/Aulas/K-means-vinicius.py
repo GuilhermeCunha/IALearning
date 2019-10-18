@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import random as rd 
 import math
 
-data = pd.read_csv("/home/viniciusdantz/Documentos/Repositório Github/Python/IALearning/Projeto/Aulas/entrada.txt", sep=" ", names=["comp", "larg", "flor", "dist1", "dist2", "centr"])
+data = pd.read_csv("C:\\Users\\aluno\\Documents\\VDP\\IALearning\\Projeto\\Aulas\\entrada.txt", sep=" ", names=["comp", "larg", "flor", "dist1", "dist2", "centr"])
 
 data = np.array(data)
 # print(data)
@@ -13,6 +13,7 @@ centds = []
 k = 2
 avg = []
 lastcentr = []
+distarray = np.zeros((len(data), k+3))
 
 for item in range(k):
     centds.append([rd.uniform(0, 10), rd.uniform(0, 10)])
@@ -32,14 +33,19 @@ while(centds != lastcentr):
                 deltay = centds[j][1] - data[i][1]
 
             dist = math.sqrt((deltax**2) + (deltay**2))
-            if(j == 0):
-                data[i][3] = dist
-            else:
-                data[i][4] = dist
-        if(data[i][3] > data[i][4]):
-            data[i][5] = 1
-        else:
-            data[i][5] = 0
+            distarray[i][0] = data[i][0]
+            distarray[i][1] = data[i][1]
+            distarray[i][j+2] = dist
+        
+        print(len(distarray[i]))
+        #Se k == 2 então j == 1
+        menor = 10000
+        for m in range(len(distarray[i])):
+            if(m < len(distarray[i]) - 1):
+                if(m > 1 & distarray[i][m] < menor):
+                    distarray[i][j+3] = m - 2
+                    menor = distarray[i][m]
+            
     for i in range(len(data)):
         for j in range(len(avg)):
             if(data[i][5] == 0):
