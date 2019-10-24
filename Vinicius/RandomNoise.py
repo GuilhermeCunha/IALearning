@@ -25,12 +25,12 @@ selection = (leftrandom, toprandom, rightrandom, bottomrandom)
 part = img.crop(selection) # cria corte randômico da imagem original
 
 # part = part.filter(filter.FIND_EDGES) # Mude os filtros padrões da classe ImageFilter aqui
-part = enh.Brightness(part).enhance(0.25) # Mude atributos da imagem como luminosidade aqui - ImageEnhance
+part = enh.Brightness(part).enhance(1000) # Mude atributos da imagem como luminosidade aqui - ImageEnhance
 # part.show() # Mostrar parte cortada da imagem
 # cv2.waitKey(0)
 
 # Máscara transparente para mudar formato do corte que contém o filtro
-mask = Image.open('IALearning/Vinicius/mask_circle_01.png') 
+mask = Image.open('IALearning/Vinicius/mask_gradient.png') 
 
 # Colar parte modificada em cima da imagem original no exato local que o corte foi tirado
 img.paste(part, box=selection, mask=mask.resize(part.size))
