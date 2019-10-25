@@ -17,6 +17,29 @@ def flashOrShadow(img, gamma = 1000):
     """
     return enh.Brightness(img).enhance(gamma) 
 
+def blackscale_gradient():
+    img = Image.new("RGB", (1000, 750), "#FFFFFF")
+    # img.show()
+    draw = ImageDraw.Draw(img)
+
+    r,g,b = 0, 0, 0
+    gradient = 0.255
+    for i in range(1000):
+        r,g,b = r+gradient, g+gradient, b+gradient
+        draw.line((i,0,i,750), fill=(int(r),int(g),int(b)))
+        
+    """ r = np.array(img.getdata(0))
+    g = np.array(img.getdata(1))
+    b = np.array(img.getdata(2))
+    a = np.ones(r.shape) * 255
+    a[np.logical_and(r > 127, r > 127, g > 127)] = 230
+    alpha = Image.new("L", img.size)
+    alpha.putdata(a.flatten()) """
+    img.putalpha(240)
+    img.show()
+
+    return img
+    
 #Imagem original
 img = Image.open('IALearning/Vinicius/imagem.jpeg') # Mude aqui o path da imagem
 width, height = img.size
@@ -38,9 +61,8 @@ bottomrandom = rd.randint(toprandom + 1, height)
 selection = (leftrandom, toprandom, rightrandom, bottomrandom)
 part = img.crop(selection) # cria corte randômico da imagem original
 
-part = part.filter(filter.GaussianBlur(radius=10)) # Mude os filtros padrões da classe ImageFilter aqui
-part = part.filter(filter.MedianFilter(size=9))
-part = flashOrShadow(part)
+# part = part.filter(filter.FIND_EDGES) # Mude os filtros padrões da classe ImageFilter aqui
+part = flashOrShadow(part, 0.1)
 # part.show() # Mostrar parte cortada da imagem
 # cv2.waitKey(0)
 
