@@ -1,6 +1,7 @@
 from cv2 import cv2
 import random as rd
 from PIL import Image, ImageDraw
+import numpy as np
 from PIL import ImageFilter as filter, ImageEnhance as enh
 
 def flashOrShadow(img, gamma = 1000):
@@ -26,6 +27,16 @@ def blackscale_gradient():
     for i in range(1000):
         r,g,b = r+gradient, g+gradient, b+gradient
         draw.line((i,0,i,750), fill=(int(r),int(g),int(b)))
+        
+    """ r = np.array(img.getdata(0))
+    g = np.array(img.getdata(1))
+    b = np.array(img.getdata(2))
+    a = np.ones(r.shape) * 255
+    a[np.logical_and(r > 127, r > 127, g > 127)] = 230
+    alpha = Image.new("L", img.size)
+    alpha.putdata(a.flatten()) """
+    img.putalpha(127)
+
     # img.save(name+".png", "PNG")
     # img.show()
     return img
@@ -62,7 +73,7 @@ mask = Image.open('IALearning/Vinicius/mask_gradient.png')
 try:
     # Colar parte modificada em cima da imagem original no exato local que o corte foi tirado
     # img.paste(part, box=selection, mask=mask.resize(part.size))
-    img = img.alpha_composite(img, blackscale_gradient())
+    img = img.paste(blackscale_gradient(), box=img.size)
 except Exception as e:
     print("Part size: {0}\nSelection: {1}\nMask size: {2}\nMessage: {3}".format(part.size, selection, mask.size, str(e)))
 else:
