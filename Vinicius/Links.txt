@@ -1,3 +1,0 @@
-http://wiki.icmc.usp.br/images/7/7b/Perceptron.pdf - Perceptron de 1 e 2 camadas
-https://www.quora.com/What-is-bias-in-artificial-neural-network - Explicando o bias
-http://conteudo.icmc.usp.br/pessoas/andre/research/neural/ - Introdução a RN  - com outros artigos
